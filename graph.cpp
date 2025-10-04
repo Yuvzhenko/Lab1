@@ -1,6 +1,5 @@
 #include "graph.h"
-#include <iostream>
-#include <string>
+
 
 using namespace std;
 
@@ -12,26 +11,29 @@ string trim(const string& source) {
 }
 
 void Graph::createGraph() {
-    cout << "Enter all the edges (v u) and stop when finished\n";
-    string u, v;
-    int U, V;
+    cout << "Enter all the edges (v u) and -1 -1 when finished\n";
+    int u, v;
     while (true) {
-        getline(cin, u);
-        getline(cin, v);
-        if (trim(u) == "stop")
+        cin >> u;
+        cin >> v;
+        if (u == -1 and v == -1)
             break;
-        U = stoi(u);
-        V = stoi(v);
-        graph[U].push_back(V);
+        if (u >= 0 && u < graph.size() && v >= 0 && v < graph.size()) {
+            graph[u].push_back(v);
+            if(!directed)
+                graph[v].push_back(u);
+        }
+        else {
+            cout << "Invalid vertex!\n";
+        }
     }
 }
-/*
 void Graph::printGraphList() {
     for (int i = 0; i < graph.size(); i++) {
-        std::cout << i << ": ";
-        for (int j = 0; j < graph[i].size;) {
-
+        cout << i << ": ";
+        for (int v : graph[i]) {
+            cout << v << " ";
         }
-        std::cout << "\n";
+        cout << "\n";
     }
-}*/
+}
