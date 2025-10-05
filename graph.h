@@ -10,22 +10,26 @@ string trim(const string& source);
 class Graph {
 	vector<vector<int>> graph;
 	bool directed;
+	bool matrix;
+	int vertices;
 public:
-	Graph() { 
-		cout << "Enter the amount of vertecies :: ";
-		int n;
-		cin >> n;
-		graph.resize(n);
-		cin.ignore();
-		cout << "Is it directed (yes/no) :: ";
-		string d;
-		getline(cin, d);
-		if (trim(d) == "yes")
-			directed = true;
-		else
-			directed = false;
+	Graph(int v = 0, bool dir = false) {
+		vertices = v;
+		directed = dir;
 	}
 
-	void createGraph();
+	void createGraphList();
+	void createGraphMatrix();
 	void printGraphList();
+	void printGraphMatrix();
+	void addEdge();
+	void removeEdge();
+	void isConnected();
+	void distanceBetween();
+
+private:
+	void DFS(int v, vector<bool>& visited);
+	void isStronglyConnected();
+	bool checkVertices(int &u, int &v);
+	Graph getTranspose();
 };
