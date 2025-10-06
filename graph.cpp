@@ -186,7 +186,7 @@ void Graph::getGraphData(int& v, bool& dir) {
             if (trim(d) == "no")
                 dir = false;
             else {
-                SetConsoleTextAttribute(console_textcolor, 4);
+                SetConsoleTextAttribute(console_textcolor, 4); 
                 cout << "Invalid vertex!\n";
                 SetConsoleTextAttribute(console_textcolor, 0x0F);
                 continue;
