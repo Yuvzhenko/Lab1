@@ -18,5 +18,5 @@ int main() {
 	Graph grph(v, dir);
 
 	grph.createGraphMatrix();
-	grph.printGraphMatrix();
+	grph.distanceBetween();
 }

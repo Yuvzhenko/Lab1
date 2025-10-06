@@ -18,14 +18,14 @@ public:
 		directed = dir;
 	}
 
-	void createGraphList();
-	void createGraphMatrix();
-	void printGraphList();
-	void printGraphMatrix();
-	void addEdge();
-	void removeEdge();
-	void isConnected();
-	void distanceBetween();
+	void createGraphList();		
+	void createGraphMatrix();	
+	void printGraphList();		
+	void printGraphMatrix();	
+	void addEdge();				
+	void removeEdge();			
+	void isConnected();			
+	void distanceBetween();		
 
 private:
 	void DFS(int v, vector<bool>& visited);
