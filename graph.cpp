@@ -340,7 +340,7 @@ void Graph::isConnected() {
 
     if (vertices == 0) {
         SetConsoleTextAttribute(console_textcolor, 4);
-        cout << "Graph has no vertices.\n";
+        cout << "Graph has no vertices\n";
         SetConsoleTextAttribute(console_textcolor, 0x0F);
         return;
     }
@@ -370,7 +370,7 @@ void Graph::isConnected() {
 
     if (start == -1) {
         SetConsoleTextAttribute(console_textcolor, 4);
-        cout << "Graph has no edges.\n";
+        cout << "Graph has no edges\n";
         SetConsoleTextAttribute(console_textcolor, 0x0F);
         return;
     }
@@ -404,11 +404,11 @@ void Graph::isConnected() {
 
     if (allConnected) {
         SetConsoleTextAttribute(console_textcolor, 2);
-        cout << "Graph is Connected.\n";
+        cout << "Graph is Connected\n";
     }
     else {
         SetConsoleTextAttribute(console_textcolor, 4);
-        cout << "Graph is not Connected.\n";
+        cout << "Graph is not Connected\n";
     }
     SetConsoleTextAttribute(console_textcolor, 0x0F);
 }
@@ -437,7 +437,7 @@ void Graph::isStronglyConnected() {
     }
     if (start == -1) {
         SetConsoleTextAttribute(console_textcolor, 4);
-        cout << "Graph has no edges.\n";
+        cout << "Graph has no edges\n";
         SetConsoleTextAttribute(console_textcolor, 0x0F);
         return;
     }
@@ -446,7 +446,7 @@ void Graph::isStronglyConnected() {
     for (bool v : visited)
         if (!v) {
             SetConsoleTextAttribute(console_textcolor, 4);
-            cout << "Graph is not Connected.\n";
+            cout << "Graph is not Connected\n";
             SetConsoleTextAttribute(console_textcolor, 0x0F);
             return;
         }
@@ -459,12 +459,12 @@ void Graph::isStronglyConnected() {
     for (bool v : visited)
         if (!v) {
             SetConsoleTextAttribute(console_textcolor, 4);
-            cout << "Graph is not Connected.\n";
+            cout << "Graph is not Connected\n";
             SetConsoleTextAttribute(console_textcolor, 0x0F);
             return;
         }
     SetConsoleTextAttribute(console_textcolor, 2);
-    cout << "Graph is Connected.\n";
+    cout << "Graph is Connected\n";
     SetConsoleTextAttribute(console_textcolor, 0x0F);
     return;
 }
