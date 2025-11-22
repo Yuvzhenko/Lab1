@@ -27,4 +27,12 @@
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Doxyfile">
+      <Filter>Исходные файлы</Filter>
+    </None>
+    <None Include=".github\workflows\docs.yml">
+      <Filter>Исходные файлы</Filter>
+    </None>
+  </ItemGroup>
 </Project>
