@@ -186,7 +186,7 @@ void Graph::getGraphData(int& v, bool& dir) {
             if (trim(d) == "no")
                 dir = false;
             else {
-                SetConsoleTextAttribute(console_textcolor, 4);
+                SetConsoleTextAttribute(console_textcolor, 4); 
                 cout << "Invalid vertex!\n";
                 SetConsoleTextAttribute(console_textcolor, 0x0F);
                 continue;
@@ -264,9 +264,9 @@ void Graph::printGraphList() {
 void Graph::printGraphMatrix() {
     for (int i = 0; i < graph.size(); i++) {
         for (int j = 0; j < graph.size(); j++) {
-            std::cout << graph[i][j] << " ";
+            cout << graph[i][j] << " ";
         }
-        std::cout << "\n";
+        cout << "\n";
     }
 }
 
@@ -313,7 +313,7 @@ void Graph::removeEdge() {
 
         if (!directed) 
             for (auto i = graph[v].begin(); i != graph[v].end(); i++)
-                if (*i == v) {
+                if (*i == u) {
                     graph[v].erase(i);
                     break;
                 }
@@ -333,11 +333,21 @@ void Graph::removeEdge() {
 }
 
 void Graph::isConnected() {
-    if (directed)
-        return isStronglyConnected();
+    if (directed) {
+        isStronglyConnected();
+        return;
+    }
+
+    if (vertices == 0) {
+        SetConsoleTextAttribute(console_textcolor, 4);
+        cout << "Graph has no vertices\n";
+        SetConsoleTextAttribute(console_textcolor, 0x0F);
+        return;
+    }
 
     vector<bool> visited(vertices, false);
     int start = -1;
+
     if (matrix) {
         for (int i = 0; i < vertices; i++) {
             for (int j = 0; j < vertices; j++) {
@@ -360,32 +370,47 @@ void Graph::isConnected() {
 
     if (start == -1) {
         SetConsoleTextAttribute(console_textcolor, 4);
-        cout << "Graph has no edges.\n";
+        cout << "Graph has no edges\n";
         SetConsoleTextAttribute(console_textcolor, 0x0F);
         return;
     }
 
     DFS(start, visited);
 
+    bool allConnected = true;
     for (int i = 0; i < vertices; i++) {
         bool hasEdges = false;
         if (matrix) {
             for (int j = 0; j < vertices; j++)
-                if (graph[i][j]) hasEdges = true;
+                if (graph[i][j]) { hasEdges = true; break; }
         }
-        else hasEdges = !graph[i].empty();
+        else {
+            if (!graph[i].empty())
+                hasEdges = true;
+        }
 
         if (hasEdges && !visited[i]) {
-            SetConsoleTextAttribute(console_textcolor, 4);
-            cout << "Graph is not Connected.\n";
-            SetConsoleTextAttribute(console_textcolor, 0x0F);
-            return;
+            allConnected = false;
+            break;
         }
     }
-    SetConsoleTextAttribute(console_textcolor, 2);
-    cout << "Graph is Connected.\n";
+
+    for (int i = 0; i < vertices; i++) {
+        if (graph[i].empty()) {
+            allConnected = false;
+            break;
+        }
+    }
+
+    if (allConnected) {
+        SetConsoleTextAttribute(console_textcolor, 2);
+        cout << "Graph is Connected\n";
+    }
+    else {
+        SetConsoleTextAttribute(console_textcolor, 4);
+        cout << "Graph is not Connected\n";
+    }
     SetConsoleTextAttribute(console_textcolor, 0x0F);
-    return;
 }
 
 void Graph::isStronglyConnected() {
@@ -412,7 +437,7 @@ void Graph::isStronglyConnected() {
     }
     if (start == -1) {
         SetConsoleTextAttribute(console_textcolor, 4);
-        cout << "Graph is not Connected.\n";
+        cout << "Graph has no edges\n";
         SetConsoleTextAttribute(console_textcolor, 0x0F);
         return;
     }
@@ -421,7 +446,7 @@ void Graph::isStronglyConnected() {
     for (bool v : visited)
         if (!v) {
             SetConsoleTextAttribute(console_textcolor, 4);
-            cout << "Graph is not Connected.\n";
+            cout << "Graph is not Connected\n";
             SetConsoleTextAttribute(console_textcolor, 0x0F);
             return;
         }
@@ -434,12 +459,12 @@ void Graph::isStronglyConnected() {
     for (bool v : visited)
         if (!v) {
             SetConsoleTextAttribute(console_textcolor, 4);
-            cout << "Graph is not Connected.\n";
+            cout << "Graph is not Connected\n";
             SetConsoleTextAttribute(console_textcolor, 0x0F);
             return;
         }
     SetConsoleTextAttribute(console_textcolor, 2);
-    cout << "Graph is Connected.\n";
+    cout << "Graph is Connected\n";
     SetConsoleTextAttribute(console_textcolor, 0x0F);
     return;
 }

@@ -13,6 +13,7 @@ using namespace std;
 string trim(const string& source);
 
 class Graph {
+protected:
 	vector<vector<int>> graph;
 	fstream file;
 	bool directed;
@@ -34,7 +35,7 @@ public:
 	void distanceBetween();	
 	bool loadFromFile();
 
-private:
+protected:
 	void getGraphData(int& v, bool& dir);
 	void DFS(int v, vector<bool>& visited);
 	void isStronglyConnected();
