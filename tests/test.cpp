@@ -3,8 +3,27 @@
 
 using namespace std;
 
+/**
+ * @brief Testable wrapper around the Graph class.
+ *
+ * Exposes protected members and helper methods of Graph for unit testing
+ * and provides simplified versions of some internal helpers that avoid
+ * console color and recursion in case of invalid input.
+ *
+ * This class should be used only in the test target; production code
+ * should work with Graph directly.
+ *
+ * @example
+ * TestableGraph g;
+ * g.setVert(3);
+ * g.setDir(false);
+ * g.setMatrix(true);
+ * g.setData({ {0,0,0}, {0,0,0}, {0,0,0} });
+ * // Now use g.addEdge() with redirected std::cin in tests
+ */
 class TestableGraph : public Graph {
 public:
+    /// Bring selected protected methods of Graph into public scope for testing.
     using Graph::DFS;
     using Graph::setVert;
     using Graph::setDir;
@@ -18,10 +37,54 @@ public:
     using Graph::listToFile;
     using Graph::matrixToFile;
 
+    /**
+     * @brief Returns a modifiable reference to the underlying adjacency container.
+     *
+     * This helper is used by tests to inspect and manipulate the internal
+     * representation of the graph directly.
+     *
+     * @return Reference to the adjacency container (list or matrix).
+     * @throws None.
+     */
     vector<vector<int>>& data() { return graph; }
+
+    /**
+     * @brief Sets the representation mode to adjacency matrix or list.
+     *
+     * @param m If true, the graph is treated as adjacency matrix; if false, as list.
+     * @return void
+     * @throws None.
+     */
     void setMatrix(bool m) { matrix = m; }
+
+    /**
+     * @brief Replaces the underlying adjacency container with a new one.
+     *
+     * This is a low-level helper for tests to set up a particular graph
+     * structure without going through interactive input.
+     *
+     * @param g New adjacency container to copy into the internal storage.
+     * @return void
+     * @throws None.
+     */
     void setData(const vector<vector<int>>& g) { graph = g; }
 
+    /**
+     * @brief Simplified vertex input validator for tests.
+     *
+     * Reads a pair (u v) from standard input, validates that indices are
+     * within [0, vertices) or equal to the sentinel "-1 -1". If input
+     * is invalid (failbit set or out of range), prints an error message
+     * and returns false.
+     *
+     * Unlike the production version, this function does not recurse: it
+     * only checks one pair of values.
+     *
+     * @param u Reference where the first vertex index will be stored.
+     * @param v Reference where the second vertex index will be stored.
+     * @return true if vertices are valid, false otherwise (including "-1 -1").
+     * @throws None.
+     */
     bool checkVertices(int& u, int& v) {
         cin >> u >> v;
         if (cin.fail()) {
@@ -39,6 +102,15 @@ public:
         return true;
     }
 
+    /**
+     * @brief Builds and returns the transpose of the current graph for tests.
+     *
+     * The logic mirrors Graph::getTranspose(), but returns a TestableGraph
+     * object so that tests can further manipulate internal state.
+     *
+     * @return TestableGraph that represents the transpose of this graph.
+     * @throws None.
+     */
     TestableGraph getTranspose() {
         TestableGraph gT;
         gT.setVert(vertices);
@@ -61,6 +133,18 @@ public:
         return gT;
     }
 };
+
+/**
+ * @brief Unit tests for Graph and TestableGraph behaviour.
+ *
+ * The following TEST cases verify correctness of:
+ *  - edge insertion/removal for list and matrix,
+ *  - handling duplicate edges and self-loops,
+ *  - connectivity checks (directed/undirected, empty graphs),
+ *  - BFS-based distance calculation,
+ *  - file I/O for list/matrix representations,
+ *  - performance on larger graphs.
+ */
 
 TEST(GraphTest, AddEdge_Matrix_Undirected_AddsBothDirections) {
     TestableGraph g;
